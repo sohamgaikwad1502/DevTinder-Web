@@ -9,6 +9,7 @@ import Feed from "./Components/Feed";
 function App() {
   return (
     <>
+      {/* Provider is used to provide redux store's access to all the components"*/}
       <Provider store={appStore}>
         <BrowserRouter basename="/">
           <Routes>
