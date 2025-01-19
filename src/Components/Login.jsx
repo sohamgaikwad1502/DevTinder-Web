@@ -10,6 +10,7 @@ const Login = function () {
   const [password, setPassword] = useState("Alice@101");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [errorMessage, seterrorMessage] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -28,7 +29,8 @@ const Login = function () {
       dispatch(addUser(res.data));
       return navigate("/feed");
     } catch (err) {
-      console.log("ERROR:" + err.message);
+      seterrorMessage(err?.statusText || "Something Went Wrong!!");
+      console.log("ERROR:" + err);
     }
   };
 
@@ -65,6 +67,7 @@ const Login = function () {
               <div className="label"></div>
             </label>
           </div>
+          <span className="text-red-600 ml-2">{errorMessage}</span>
           <div className="card-actions justify-center">
             <button className="btn btn-primary" onClick={handleLogin}>
               Login
