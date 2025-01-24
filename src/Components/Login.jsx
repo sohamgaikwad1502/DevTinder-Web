@@ -1,13 +1,13 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addUser } from "../../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { BASE_URL } from "../../utils/constants";
 
 const Login = function () {
-  const [emailId, setEmailId] = useState("alice.johnson@example.com");
-  const [password, setPassword] = useState("Alice@101");
+  const [emailId, setEmailId] = useState("mahendrasingh@dhoni.com");
+  const [password, setPassword] = useState("Dhoni@101");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorMessage, seterrorMessage] = useState("");
@@ -28,7 +28,9 @@ const Login = function () {
     }
   };
 
-  isNotLoggedIn();
+  useEffect(() => {
+    isNotLoggedIn();
+  }, []);
 
   const handleLogin = async () => {
     try {
