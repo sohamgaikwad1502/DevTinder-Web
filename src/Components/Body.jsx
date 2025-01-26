@@ -19,6 +19,7 @@ const Body = function () {
       });
 
       dispatch(addUser(res.data));
+      navigate("/feed");
     } catch (error) {
       if (error.status === 401) {
         navigate("/login");

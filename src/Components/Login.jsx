@@ -12,6 +12,7 @@ const Login = function () {
   const navigate = useNavigate();
   const [errorMessage, seterrorMessage] = useState("");
   const [userNotLoggedIn, setUserNotLoggedIn] = useState(true);
+  const [isSignup, setisSignup] = useState(true);
 
   const isNotLoggedIn = async () => {
     try {
