@@ -1,3 +1,3 @@
-const BASE_URL = "http://localhost:6969";
+const BASE_URL = "/api";
 
 export { BASE_URL };
