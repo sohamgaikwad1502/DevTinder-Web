@@ -109,7 +109,7 @@ const EditProfile = ({ user }) => {
                     <span className="label-text">About :</span>
                   </div>
                   <input
-                    type="text"
+                    type="textarea"
                     placeholder="about"
                     className="input input-bordered w-full max-w-xs"
                     value={about}
