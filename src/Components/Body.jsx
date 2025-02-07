@@ -10,14 +10,15 @@ import { addUser } from "../../utils/userSlice";
 const Body = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user);
 
   const fetchUser = async () => {
+    if (user) return;
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-
+      console.log("view api in body executed !! ");
       dispatch(addUser(res.data));
       navigate("/feed");
     } catch (error) {
@@ -33,10 +34,14 @@ const Body = function () {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <Outlet />
-      <Footer />
+      <main className="flex-grow px-4 pb-12">
+        <div className="container mx-auto space-y-6">
+          <Outlet />
+        </div>
+      </main>
+      <Footer className="mt-auto" />
     </div>
   );
 };

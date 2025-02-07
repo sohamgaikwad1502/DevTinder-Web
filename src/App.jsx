@@ -7,6 +7,7 @@ import appStore from "../utils/appStore";
 import Feed from "./Components/Feed";
 import Connections from "./Components/Connections";
 import Request from "./Components/Request";
+import Chat from "./Components/Chat";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                 path="/connections"
                 element={<Connections></Connections>}
               ></Route>
+              <Route path="/chat" element={<Chat></Chat>}></Route>
               <Route path="/requests" element={<Request></Request>}></Route>
 
               <Route path=""></Route>

@@ -4,6 +4,7 @@ import { BASE_URL } from "../../utils/constants";
 import "@fontsource/roboto";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../../utils/connectionsSlice";
+import { MessageCircle, Share2, UserPlus } from "lucide-react";
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -51,28 +52,41 @@ const Connections = () => {
     );
 
   return (
-    <div className="text-center my-10">
-      <h3 className="text-bold text-3xl text-white">Connections</h3>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h3 className="text-3xl font-bold text-white mb-8 text-center">
+        Connections
+      </h3>
 
-      {connections.map((connection) => {
-        const { firstName, lastName, photoUrl, about, skills, _id } =
-          connection;
-
-        return (
-          <div key={_id} className="m-4 p-4 flex  bg-base-300 w-1/2 mx-auto">
-            <div className="">
-              <img src={photoUrl} className="w-20 h-20 rounded-full" alt="" />
+      <div className="space-y-6">
+        {connections.map((connection) => (
+          <div
+            key={connection._id}
+            className="group flex items-center gap-8 bg-base-300 p-6 rounded-lg hover:bg-base-200 transition-all duration-300 w-3/4 mx-auto"
+          >
+            <div className="flex-shrink-0">
+              <img
+                src={connection.photoUrl}
+                className="w-24 h-24 rounded-full object-cover ring-2 ring-primary/50 group-hover:ring-primary transition-all duration-300"
+                alt=""
+              />
             </div>
-            <div className="ml-5 text-left">
-              <h2 className="font-bold  text-xl">
-                {firstName + " " + lastName}{" "}
-              </h2>
-              <p>{about}</p>
-              <p>{skills.join(", ")}</p>
+
+            <div className="flex-grow grid grid-cols-2 gap-4">
+              <div>
+                <h2 className="text-2xl font-semibold group-hover:text-primary transition-colors duration-300">
+                  {connection.firstName} {connection.lastName}
+                </h2>
+                <p className="text-base text-base-content/70 line-clamp-2 group-hover:line-clamp-none">
+                  {connection.about}
+                </p>
+              </div>
+              <div className="flex items-center justify-end">
+                <button className="btn btn-primary px-8">Chat</button>
+              </div>
             </div>
           </div>
-        );
-      })}
+        ))}
+      </div>
     </div>
   );
 };

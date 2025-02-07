@@ -7,7 +7,6 @@ import { removeFeed } from "../../utils/feedSlice";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
-  const feed = useSelector((store) => store.feed);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

@@ -38,7 +38,7 @@ const EditProfile = ({ user }) => {
     } catch (err) {
       //TODO
       console.log(err);
-      setError(err?.message);
+      setError(err?.response?.data?.error?.message);
     }
   };
 
@@ -108,10 +108,9 @@ const EditProfile = ({ user }) => {
                   <div className="label">
                     <span className="label-text">About :</span>
                   </div>
-                  <input
-                    type="textarea"
+                  <textarea
                     placeholder="about"
-                    className="input input-bordered w-full max-w-xs"
+                    className="textarea textarea-bordered w-full max-w-xs"
                     value={about}
                     onChange={(e) => {
                       setAbout(e.target.value);

@@ -62,45 +62,60 @@ const Request = () => {
   }
 
   return (
-    <div className="text-center my-10">
-      <h3 className="text-bold text-3xl text-white">Connection Requests</h3>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h3 className="text-3xl font-bold text-white mb-8 text-center">
+        Connection Requests
+      </h3>
 
-      {requestedData.map((connection) => {
-        const { firstName, lastName, photoUrl, about, skills, _id } =
-          connection.fromConnectionId;
+      <div className="space-y-6">
+        {requestedData.map((connection) => {
+          const { firstName, lastName, photoUrl, about, skills, _id } =
+            connection.fromConnectionId;
 
-        return (
-          <div
-            key={_id}
-            className="m-4 p-4 flex justify-between items-center bg-base-300 w-2/3 mx-auto"
-          >
-            <div className="">
-              <img src={photoUrl} className="w-20 h-20 rounded-full" alt="" />
+          return (
+            <div
+              key={_id}
+              className="group flex items-center gap-8 bg-base-300 p-6 rounded-lg hover:bg-base-200 transition-all duration-300 w-3/4 mx-auto"
+            >
+              <div className="flex-shrink-0">
+                <img
+                  src={photoUrl}
+                  className="w-24 h-24 rounded-full object-cover ring-2 ring-primary/50 group-hover:ring-primary transition-all duration-300"
+                  alt=""
+                />
+              </div>
+
+              <div className="flex-grow grid grid-cols-2 gap-4">
+                <div>
+                  <h2 className="text-2xl font-semibold group-hover:text-primary transition-colors duration-300">
+                    {firstName} {lastName}
+                  </h2>
+                  <p className="text-base text-base-content/70 line-clamp-2 group-hover:line-clamp-none">
+                    {about}
+                  </p>
+                  <p className="text-sm text-base-content/60">
+                    {skills.join(", ")}
+                  </p>
+                </div>
+                <div className="flex items-center justify-end space-x-4">
+                  <button
+                    className="btn btn-error px-6"
+                    onClick={() => requestHandler("rejected", connection._id)}
+                  >
+                    Reject
+                  </button>
+                  <button
+                    className="btn btn-success px-6"
+                    onClick={() => requestHandler("accepted", connection._id)}
+                  >
+                    Accept
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="ml-5 text-left">
-              <h2 className="font-bold  text-xl">
-                {firstName + " " + lastName}{" "}
-              </h2>
-              <p>{about}</p>
-              <p>{skills.join(", ")}</p>
-            </div>
-            <div className="">
-              <button
-                className="btn btn-primary text-white mx-2"
-                onClick={() => requestHandler("rejected", connection._id)}
-              >
-                Reject
-              </button>
-              <button
-                className="btn btn-secondary text-white mx-2"
-                onClick={() => requestHandler("accepted", connection._id)}
-              >
-                Accept
-              </button>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };

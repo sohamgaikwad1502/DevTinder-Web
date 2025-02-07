@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addUser } from "../../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -14,24 +14,6 @@ const Login = function () {
   const [password, setPassword] = useState("Dhoni@123");
   const [errorMessage, seterrorMessage] = useState("");
   const [isSignup, setisSignup] = useState(false);
-
-  const alreadyLoggedIn = async () => {
-    try {
-      const user = await axios.get(BASE_URL + "/profile/view", {
-        withCredentials: true,
-      });
-
-      if (user) {
-        return navigate("/feed");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    alreadyLoggedIn();
-  }, []);
 
   const handleSignup = async () => {
     try {
