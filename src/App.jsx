@@ -24,7 +24,7 @@ function App() {
                 path="/connections"
                 element={<Connections></Connections>}
               ></Route>
-              <Route path="/chat" element={<Chat></Chat>}></Route>
+              <Route path="/chat/:targetUserId" element={<Chat></Chat>}></Route>
               <Route path="/requests" element={<Request></Request>}></Route>
 
               <Route path=""></Route>

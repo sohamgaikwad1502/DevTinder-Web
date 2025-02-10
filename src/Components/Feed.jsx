@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../../utils/feedSlice";
 import { useEffect } from "react";
 import UserCard from "./UserCard";
+import { useNavigate } from "react-router";
 
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
+  const navigate = useNavigate();
 
   const getFeed = async () => {
     if (feed) return;
@@ -30,7 +32,23 @@ const Feed = () => {
 
   if (feed && feed.length === 0) {
     return (
-      <h3 className="text-3xl text-center text-white">No New Users Found</h3>
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-4 h-screen">
+        <h2 className="text-4xl font-bold text-gray-200 mb-6 animate-bounce">
+          No New Users Found
+        </h2>
+        <p className="text-gray-400 mb-8 max-w-lg text-lg">
+          It looks like there are no new users to show on feed . See if there
+          are any pending requests !
+        </p>
+        <button
+          className="bg-gray-700 hover:bg-gray-800 text-white font-medium py-3 px-8 rounded-lg shadow-lg text-lg transition-transform transform hover:scale-105"
+          onClick={() => {
+            navigate("/requests");
+          }}
+        >
+          Go to Requests
+        </button>
+      </main>
     );
   }
 

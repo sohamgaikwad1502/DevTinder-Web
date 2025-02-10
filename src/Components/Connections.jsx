@@ -4,7 +4,7 @@ import { BASE_URL } from "../../utils/constants";
 import "@fontsource/roboto";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../../utils/connectionsSlice";
-import { MessageCircle, Share2, UserPlus } from "lucide-react";
+import { Link } from "react-router";
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -81,7 +81,9 @@ const Connections = () => {
                 </p>
               </div>
               <div className="flex items-center justify-end">
-                <button className="btn btn-primary px-8">Chat</button>
+                <button className="btn btn-primary px-8">
+                  <Link to={"/chat/" + connection._id}>Chat</Link>
+                </button>
               </div>
             </div>
           </div>
