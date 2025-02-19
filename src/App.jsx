@@ -12,7 +12,6 @@ import Chat from "./Components/Chat";
 function App() {
   return (
     <>
-      {/* Provider is used to provide redux store's access to all the components"*/}
       <Provider store={appStore}>
         <BrowserRouter basename="/">
           <Routes>
@@ -26,8 +25,6 @@ function App() {
               ></Route>
               <Route path="/chat/:targetUserId" element={<Chat></Chat>}></Route>
               <Route path="/requests" element={<Request></Request>}></Route>
-
-              <Route path=""></Route>
             </Route>
           </Routes>
         </BrowserRouter>

@@ -1,8 +1,9 @@
 import { Outlet, useNavigate } from "react-router";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
 import { BASE_URL } from "../../utils/constants";
 import { useEffect } from "react";
 import { addUser } from "../../utils/userSlice";
@@ -10,17 +11,16 @@ import { addUser } from "../../utils/userSlice";
 const Body = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((store) => store.user);
+  const userInfo = useSelector((store) => store.user);
 
   const fetchUser = async () => {
-    if (user) return;
+    if (userInfo) return;
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
       console.log("view api in body executed !! ");
       dispatch(addUser(res.data));
-      navigate("/feed");
     } catch (error) {
       if (error.status === 401) {
         navigate("/login");

@@ -10,8 +10,8 @@ const Login = function () {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [emailId, setEmailId] = useState("mahendrasingh@gmail.com");
-  const [password, setPassword] = useState("Dhoni@123");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, seterrorMessage] = useState("");
   const [isSignup, setisSignup] = useState(false);
 
@@ -79,7 +79,7 @@ const Login = function () {
                   </div>
                   <input
                     type="text"
-                    placeholder="FIrst Name"
+                    placeholder="First Name"
                     className="input input-bordered w-full max-w-xs"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
@@ -102,7 +102,7 @@ const Login = function () {
               </div>
               <input
                 type="text"
-                placeholder="Email"
+                placeholder="Email Id"
                 className="input input-bordered w-full max-w-xs"
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
