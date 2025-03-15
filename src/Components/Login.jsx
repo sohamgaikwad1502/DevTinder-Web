@@ -12,8 +12,8 @@ const Login = function () {
   const [lastName, setLastName] = useState("");
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, seterrorMessage] = useState("");
-  const [isSignup, setisSignup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSignup, setIsSignup] = useState(false);
 
   const handleSignup = async () => {
     try {
@@ -22,13 +22,12 @@ const Login = function () {
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
-      console.log(res);
       dispatch(addUser(res.data.user));
       return navigate("/profile");
     } catch (error) {
-      seterrorMessage(error?.response?.data || "Something Went Wrong!!");
-      setInterval(() => {
-        seterrorMessage("");
+      setErrorMessage(error?.response?.data || "Something Went Wrong!!");
+      setTimeout(() => {
+        setErrorMessage("");
       }, 4000);
       console.log(error);
     }
@@ -47,31 +46,30 @@ const Login = function () {
         }
       );
 
-      console.log(res.data);
       dispatch(addUser(res.data));
       return navigate("/feed");
     } catch (err) {
       console.log(err.response?.data);
       console.log(err);
-      seterrorMessage(
+      setErrorMessage(
         err.message || err.response?.data || "Something Went Wrong!!"
       );
-      setInterval(() => {
-        seterrorMessage("");
+      setTimeout(() => {
+        setErrorMessage("");
       }, 5000);
       console.log("ERROR:" + err);
     }
   };
 
   return (
-    <div className="flex justify-center m-20">
-      <div className="card bg-base-300 w-96 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title justify-center">
+    <div className="flex justify-center items-center px-4 py-8 md:py-16 lg:py-20">
+      <div className="card bg-base-300 w-full max-w-md shadow-xl">
+        <div className="card-body p-4 md:p-6">
+          <h2 className="card-title justify-center text-xl md:text-2xl mb-4">
             {isSignup ? "Sign Up" : "Login"}
           </h2>
-          <div>
-            <label className="form-control w-full max-w-xs">
+          <div className="w-full">
+            <label className="form-control w-full">
               {isSignup && (
                 <>
                   <div className="label">
@@ -80,7 +78,7 @@ const Login = function () {
                   <input
                     type="text"
                     placeholder="First Name"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
@@ -90,7 +88,7 @@ const Login = function () {
                   <input
                     type="text"
                     placeholder="Last Name"
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
@@ -101,34 +99,35 @@ const Login = function () {
                 <span className="label-text">Email</span>
               </div>
               <input
-                type="text"
-                placeholder="Email Id"
-                className="input input-bordered w-full max-w-xs"
+                type="email"
+                placeholder="Email Address"
+                className="input input-bordered w-full"
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
               />
 
-              <div className="label"></div>
-              <div className="label">
+              <div className="label pt-2">
                 <span className="label-text">Password</span>
               </div>
               <input
                 type="password"
                 placeholder="Password"
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
               />
-              <div className="label"></div>
             </label>
           </div>
-          <p className="text-red-600 ml-2">{errorMessage}</p>
 
-          <div className="card-actions justify-center">
+          {errorMessage && (
+            <p className="text-red-600 text-sm mt-2">{errorMessage}</p>
+          )}
+
+          <div className="card-actions justify-center mt-6">
             <button
-              className="btn btn-primary"
+              className="btn btn-primary w-full sm:w-auto"
               onClick={() => {
                 isSignup ? handleSignup() : handleLogin();
               }}
@@ -136,17 +135,19 @@ const Login = function () {
               {isSignup ? "Sign Up" : "Login"}
             </button>
           </div>
+
           <p
-            className="text-white cursor-pointer m-auto py-2"
+            className="text-center cursor-pointer mt-4 text-sm md:text-base"
             onClick={() => {
-              setisSignup(!isSignup);
+              setIsSignup(!isSignup);
             }}
           >
-            {isSignup ? "Existing User ? Login here" : "New user ? Signup here"}
+            {isSignup ? "Existing User? Login here" : "New user? Signup here"}
           </p>
         </div>
       </div>
     </div>
   );
 };
+
 export default Login;

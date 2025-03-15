@@ -19,7 +19,6 @@ const Body = function () {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-      console.log("view api in body executed !! ");
       dispatch(addUser(res.data));
     } catch (error) {
       if (error.status === 401) {

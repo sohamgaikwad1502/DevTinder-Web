@@ -6,17 +6,15 @@ import { removeFeedUser } from "../../utils/feedSlice";
 const UserCard = ({ user }) => {
   const { firstName, lastName, photoUrl, about, age, gender, _id } = user;
   const dispatch = useDispatch();
-  const feedData = useSelector((store) => store.feed);
 
   const handleApi = async (status, id) => {
     try {
-      console.log(status, id);
-      const sendstatus = await axios.post(
+      await axios.post(
         BASE_URL + `/request/send/${status}/${id}`,
         {},
         { withCredentials: true }
       );
-      console.log(feedData.data);
+
       dispatch(removeFeedUser(id));
     } catch (error) {
       console.log(error);

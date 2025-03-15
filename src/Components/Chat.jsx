@@ -11,13 +11,18 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
   const socketRef = useRef(null);
   const user = useSelector((store) => store.user);
   const { _id: userId, firstName, lastName } = user || {};
   const { targetUserId } = useParams();
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Use the chat container reference instead of scrolling the entire page
+    if (messagesEndRef.current && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
   };
 
   const getMessages = async () => {
@@ -42,7 +47,6 @@ const Chat = () => {
         };
       });
       setMessages(sortedMessages);
-      console.log(sortedMessages);
     } catch (error) {
       console.log(error);
     }
@@ -70,11 +74,6 @@ const Chat = () => {
     socketRef.current.on(
       "messageReceived",
       ({ firstName, text, userId: currUserId }) => {
-        console.log(firstName + ":" + text + " " + userId);
-        // for future use , if we created a room then this condition will be required
-        // if (userId === currUserId) {
-        //   return;
-        // }
         setMessages((messages) => [
           ...messages,
           {
@@ -92,12 +91,14 @@ const Chat = () => {
       }
     );
     return () => {
-      console.log("unmounted");
       socketRef.current.disconnect();
     };
   }, [userId, targetUserId]);
 
-  const handleSend = () => {
+  const handleSend = (e) => {
+    // Prevent default to stop form submission behavior
+    if (e) e.preventDefault();
+
     if (newMessage.trim()) {
       setMessages((messages) => [
         ...messages,
@@ -119,21 +120,20 @@ const Chat = () => {
         text: newMessage,
       });
       setNewMessage("");
-      console.log(messages);
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+      e.preventDefault(); // Prevent default to avoid page reload or form submission
       handleSend();
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#1e2126]">
-      <div className="w-full max-w-4xl mx-auto my-3 ">
-        <div className="flex flex-col h-[600px]  bg-[#131517] rounded-lg shadow-lg">
+    <div className="flex items-center justify-center min-h-screen bg-[#1e2126] overflow-hidden">
+      <div className="w-full max-w-4xl mx-auto my-3 h-screen md:h-auto px-2">
+        <div className="flex flex-col h-[calc(100vh-24px)] md:h-[600px] bg-[#131517] rounded-lg shadow-lg">
           <div className="bg-[#767676] p-4 flex items-center rounded-t-lg">
             <ChevronLeft
               className="w-6 h-6 text-gray-400 cursor-pointer"
@@ -148,7 +148,10 @@ const Chat = () => {
             <MoreVertical className="w-6 h-6 text-gray-400 cursor-pointer" />
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+          <div
+            ref={chatContainerRef}
+            className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent"
+          >
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -157,7 +160,7 @@ const Chat = () => {
                 } mb-4`}
               >
                 <div
-                  className={`max-w-xs rounded-lg p-3 ${
+                  className={`max-w-xs md:max-w-sm rounded-lg p-3 ${
                     message.sender === userId
                       ? "bg-blue-600 text-white"
                       : "bg-[#1e2126] text-white"
@@ -166,7 +169,9 @@ const Chat = () => {
                   {message.sender !== userId && (
                     <p className="text-sm text-gray-400 mb-1">{message.name}</p>
                   )}
-                  <p className="whitespace-pre-line">{message.text}</p>
+                  <p className="whitespace-pre-line break-words">
+                    {message.text}
+                  </p>
                   <span className="text-xs text-gray-300 block text-right mt-1">
                     {message.time}
                   </span>
@@ -176,16 +181,24 @@ const Chat = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="bg-[#767676] p-4 rounded-b-lg">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder="Type a message..."
-              className="w-full bg-[#131517] text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-          </div>
+          <form onSubmit={handleSend} className="bg-[#767676] p-4 rounded-b-lg">
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={handleKeyPress}
+                placeholder="Type a message..."
+                className="w-full bg-[#131517] text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+              <button
+                type="submit"
+                className="ml-2 bg-blue-600 text-white rounded-lg px-4 py-2 hidden md:block"
+              >
+                Send
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
